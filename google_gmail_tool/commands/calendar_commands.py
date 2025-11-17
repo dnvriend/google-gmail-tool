@@ -49,15 +49,17 @@ def _parse_date_range(
         click.UsageError: If invalid combination or format
     """
     # Count how many time flags are set
-    flags_set = sum([
-        today,
-        tomorrow,
-        this_week,
-        next_week,
-        days is not None,
-        date is not None,
-        range_start is not None,
-    ])
+    flags_set = sum(
+        [
+            today,
+            tomorrow,
+            this_week,
+            next_week,
+            days is not None,
+            date is not None,
+            range_start is not None,
+        ]
+    )
 
     # If no flags, default to --this-week
     if flags_set == 0:

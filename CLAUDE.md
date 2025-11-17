@@ -51,17 +51,22 @@ google-gmail-tool <command-group> <command> [OPTIONS]
 
 ### Command Groups
 
-1. **auth** - Authentication verification
+1. **completion** - Shell completion (top-level command)
+   - `bash` - Generate bash completion script
+   - `zsh` - Generate zsh completion script
+   - `fish` - Generate fish completion script
+
+2. **auth** - Authentication verification
    - `check` - Verify OAuth credentials and API access
    - `login` - Complete OAuth flow to generate credentials
 
-2. **mail** - Gmail operations
+3. **mail** - Gmail operations
    - `list` - List threads/messages with filtering
    - `get` - Get specific message/thread details
    - `send` - Send email
    - `export-obsidian` - Export threads to Obsidian vault
 
-3. **calendar** - Google Calendar operations (Events API)
+4. **calendar** - Google Calendar operations (Events API)
    - `list` - List events with time range and query filtering
    - `get` - Get event details by ID
    - `create` - Create new events
@@ -69,7 +74,7 @@ google-gmail-tool <command-group> <command> [OPTIONS]
    - `delete` - Delete events
    - `export-obsidian` - Export events to Obsidian daily notes
 
-4. **task** - Google Tasks operations (Tasks API)
+5. **task** - Google Tasks operations (Tasks API)
    - `list` - List tasks with status/due date filtering
    - `get` - Get task details by ID
    - `create` - Create new tasks
@@ -79,7 +84,7 @@ google-gmail-tool <command-group> <command> [OPTIONS]
    - `delete` - Delete tasks
    - `export-obsidian` - Export tasks to Obsidian daily notes
 
-5. **drive** - Google Drive operations (future)
+6. **drive** - Google Drive operations (future)
    - `list` - List files
    - `get` - Download files
 
@@ -109,6 +114,7 @@ google-gmail-tool/
 │   └── commands/                     # CLI command implementations
 │       ├── __init__.py
 │       ├── auth_commands.py          # auth check, login
+│       ├── completion_commands.py    # completion bash, zsh, fish
 │       ├── mail_commands.py          # mail list, get, send, export-obsidian
 │       ├── calendar_commands.py      # calendar list, get, export-obsidian
 │       ├── calendar_create_update_delete.py  # calendar create, update, delete

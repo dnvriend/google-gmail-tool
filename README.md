@@ -18,6 +18,7 @@
 - [Use Cases](#use-cases)
 - [Features](#features)
 - [Installation](#installation)
+- [Shell Completion](#shell-completion)
 - [Configuration](#configuration)
 - [Usage](#usage)
   - [Authentication](#authentication)
@@ -97,6 +98,59 @@ uv tool install .
 ```bash
 google-gmail-tool --version
 google-gmail-tool --help
+```
+
+## Shell Completion
+
+Enable tab completion for all commands, options, and arguments in your shell.
+
+### Supported Shells
+
+- Bash (≥4.4)
+- Zsh
+- Fish
+
+### Installation
+
+**Bash** (add to `~/.bashrc` or `~/.bash_profile`):
+```bash
+eval "$(google-gmail-tool completion bash)"
+```
+
+**Zsh** (add to `~/.zshrc`):
+```bash
+eval "$(google-gmail-tool completion zsh)"
+```
+
+**Fish** (save to completions directory):
+```bash
+google-gmail-tool completion fish > ~/.config/fish/completions/google-gmail-tool.fish
+```
+
+### Performance Optimization
+
+For better shell startup performance, generate completion scripts once and source them:
+
+```bash
+# Bash
+google-gmail-tool completion bash > ~/.google-gmail-tool-complete.bash
+echo 'source ~/.google-gmail-tool-complete.bash' >> ~/.bashrc
+
+# Zsh
+google-gmail-tool completion zsh > ~/.google-gmail-tool-complete.zsh
+echo 'source ~/.google-gmail-tool-complete.zsh' >> ~/.zshrc
+```
+
+After installation, restart your shell or source your configuration:
+```bash
+source ~/.bashrc    # Bash
+source ~/.zshrc     # Zsh
+# Fish loads automatically
+```
+
+For detailed help:
+```bash
+google-gmail-tool completion --help
 ```
 
 ## Configuration

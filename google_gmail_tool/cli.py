@@ -10,6 +10,7 @@ from google_gmail_tool.commands import (
     auth_commands,
     calendar_commands,
     calendar_create_update_delete,
+    completion_commands,
     mail_commands,
     task_commands,
     task_create_update_delete,
@@ -113,6 +114,10 @@ task.add_command(task_create_update_delete.complete, name="complete")
 task.add_command(task_create_update_delete.uncomplete, name="uncomplete")
 task.add_command(task_create_update_delete.delete, name="delete")
 task.add_command(task_commands.export_obsidian, name="export-obsidian")
+
+
+# Register completion command (top-level command)
+main.add_command(completion_commands.completion)
 
 
 if __name__ == "__main__":
