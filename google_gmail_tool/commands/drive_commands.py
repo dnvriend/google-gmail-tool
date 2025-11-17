@@ -329,7 +329,7 @@ def download(file_id: str, output_path: str, verbose: int) -> None:
 
         # Download file
         logger.info(f"Downloading file {file_id} to {output_path}")
-        click.echo(f"⬇️  Downloading file...", err=True)
+        click.echo("⬇️  Downloading file...", err=True)
 
         bytes_downloaded = client.download_file(file_id, output_path)
 
@@ -514,9 +514,7 @@ def _print_files_text(files: list[dict[str, Any]]) -> None:
         return
 
     # Print header
-    click.echo(
-        f"{'ID':<35} {'NAME':<40} {'TYPE':<30} {'SIZE':<10} {'MODIFIED':<20}"
-    )
+    click.echo(f"{'ID':<35} {'NAME':<40} {'TYPE':<30} {'SIZE':<10} {'MODIFIED':<20}")
     click.echo("-" * 135)
 
     # Print files
@@ -534,8 +532,8 @@ def _print_files_text(files: list[dict[str, Any]]) -> None:
 
 def _print_file_details_text(file: dict[str, Any]) -> None:
     """Print file details in human-readable format."""
-    click.echo(f"📄 File Details:")
-    click.echo(f"")
+    click.echo("📄 File Details:")
+    click.echo("")
     click.echo(f"  Name:         {file.get('name', 'N/A')}")
     click.echo(f"  ID:           {file.get('id', 'N/A')}")
     click.echo(f"  MIME Type:    {file.get('mimeType', 'N/A')}")
@@ -559,8 +557,9 @@ def _print_file_details_text(file: dict[str, Any]) -> None:
 
 def _format_size(bytes_size: int) -> str:
     """Format file size in human-readable format."""
+    size = float(bytes_size)
     for unit in ["B", "KB", "MB", "GB", "TB"]:
-        if bytes_size < 1024.0:
-            return f"{bytes_size:.1f} {unit}"
-        bytes_size /= 1024.0
-    return f"{bytes_size:.1f} PB"
+        if size < 1024.0:
+            return f"{size:.1f} {unit}"
+        size /= 1024.0
+    return f"{size:.1f} PB"

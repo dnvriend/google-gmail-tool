@@ -19,8 +19,8 @@ import logging
 from typing import Any
 
 from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build  # type: ignore[import-untyped]
-from googleapiclient.http import MediaIoBaseDownload  # type: ignore[import-untyped]
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
 
 logger = logging.getLogger(__name__)
 
@@ -72,9 +72,7 @@ class DriveClient:
 
         # Validate max_results
         if max_results > 1000:
-            logger.warning(
-                f"max_results {max_results} exceeds Drive API limit, capping at 1000"
-            )
+            logger.warning(f"max_results {max_results} exceeds Drive API limit, capping at 1000")
             max_results = 1000
 
         # Build query
@@ -101,7 +99,7 @@ class DriveClient:
             params["q"] = final_query
 
         try:
-            files = []
+            files: list[dict[str, Any]] = []
             page_token = None
 
             # Paginate through results
@@ -109,7 +107,7 @@ class DriveClient:
                 if page_token:
                     params["pageToken"] = page_token
 
-                logger.debug(f"Calling Drive API: files().list() (page {len(files)//100 + 1})")
+                logger.debug(f"Calling Drive API: files().list() (page {len(files) // 100 + 1})")
                 response = self.service.files().list(**params).execute()
 
                 batch = response.get("files", [])
@@ -151,7 +149,7 @@ class DriveClient:
         logger.info(f"Getting file metadata: {file_id}")
 
         try:
-            file = (
+            file: dict[str, Any] = (
                 self.service.files()
                 .get(
                     fileId=file_id,
