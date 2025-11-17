@@ -510,19 +510,18 @@ def search(
 def _print_files_text(files: list[dict[str, Any]]) -> None:
     """Print files in human-readable table format."""
     if not files:
-        click.echo("No files found.", err=True)
+        click.echo("No files found.")
         return
 
     # Print header
     click.echo(
-        f"{'ID':<20} {'NAME':<40} {'TYPE':<30} {'SIZE':<10} {'MODIFIED':<20}",
-        err=True,
+        f"{'ID':<35} {'NAME':<40} {'TYPE':<30} {'SIZE':<10} {'MODIFIED':<20}"
     )
-    click.echo("-" * 120, err=True)
+    click.echo("-" * 135)
 
     # Print files
     for file in files:
-        file_id = file.get("id", "")[:18]
+        file_id = file.get("id", "")
         name = file.get("name", "")[:38]
         mime_type = file.get("mimeType", "")[:28]
         size = file.get("size", "")
@@ -530,32 +529,32 @@ def _print_files_text(files: list[dict[str, Any]]) -> None:
 
         size_str = _format_size(int(size)) if size.isdigit() else "-"
 
-        click.echo(f"{file_id:<20} {name:<40} {mime_type:<30} {size_str:<10} {modified:<20}")
+        click.echo(f"{file_id:<35} {name:<40} {mime_type:<30} {size_str:<10} {modified:<20}")
 
 
 def _print_file_details_text(file: dict[str, Any]) -> None:
     """Print file details in human-readable format."""
-    click.echo(f"📄 File Details:", err=True)
-    click.echo(f"", err=True)
-    click.echo(f"  Name:         {file.get('name', 'N/A')}", err=True)
-    click.echo(f"  ID:           {file.get('id', 'N/A')}", err=True)
-    click.echo(f"  MIME Type:    {file.get('mimeType', 'N/A')}", err=True)
+    click.echo(f"📄 File Details:")
+    click.echo(f"")
+    click.echo(f"  Name:         {file.get('name', 'N/A')}")
+    click.echo(f"  ID:           {file.get('id', 'N/A')}")
+    click.echo(f"  MIME Type:    {file.get('mimeType', 'N/A')}")
 
     size = file.get("size", "")
     if size and size.isdigit():
-        click.echo(f"  Size:         {_format_size(int(size))}", err=True)
+        click.echo(f"  Size:         {_format_size(int(size))}")
 
-    click.echo(f"  Created:      {file.get('createdTime', 'N/A')}", err=True)
-    click.echo(f"  Modified:     {file.get('modifiedTime', 'N/A')}", err=True)
-    click.echo(f"  Shared:       {file.get('shared', False)}", err=True)
-    click.echo(f"  Trashed:      {file.get('trashed', False)}", err=True)
+    click.echo(f"  Created:      {file.get('createdTime', 'N/A')}")
+    click.echo(f"  Modified:     {file.get('modifiedTime', 'N/A')}")
+    click.echo(f"  Shared:       {file.get('shared', False)}")
+    click.echo(f"  Trashed:      {file.get('trashed', False)}")
 
     if file.get("webViewLink"):
-        click.echo(f"  Web Link:     {file['webViewLink']}", err=True)
+        click.echo(f"  Web Link:     {file['webViewLink']}")
 
     if file.get("owners"):
         owners = ", ".join([o.get("displayName", "Unknown") for o in file["owners"]])
-        click.echo(f"  Owners:       {owners}", err=True)
+        click.echo(f"  Owners:       {owners}")
 
 
 def _format_size(bytes_size: int) -> str:
