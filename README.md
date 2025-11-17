@@ -553,10 +553,86 @@ google-gmail-tool task export-obsidian --today --completed
 
 **Output Format**: Tasks organized by sections (Overdue, Today, Tomorrow, This Week, No Due Date)
 
-### Drive Commands (Coming Soon)
+### Drive Commands
 
-- `drive list` - List Drive files
-- `drive get` - Download Drive files
+#### List Files
+
+```bash
+# List 100 most recently modified files (default)
+google-gmail-tool drive list
+
+# List files in a specific folder
+google-gmail-tool drive list --folder "1abc123xyz"
+
+# Search for PDF files
+google-gmail-tool drive list --query "mimeType='application/pdf'" -n 50
+
+# Search by name
+google-gmail-tool drive list --query "name contains 'report'" -n 20
+
+# List files shared with me
+google-gmail-tool drive list --query "sharedWithMe=true"
+
+# Sort by name
+google-gmail-tool drive list --order-by "name" -n 50
+
+# Human-readable output
+google-gmail-tool drive list --text -n 20
+```
+
+#### Get File Metadata
+
+```bash
+# Get file metadata (JSON)
+google-gmail-tool drive get "1abc123xyz"
+
+# Human-readable format
+google-gmail-tool drive get "1abc123xyz" --text
+```
+
+#### Download Files
+
+```bash
+# Download a file
+google-gmail-tool drive download "1abc123xyz" "/tmp/report.pdf"
+
+# Download to current directory
+google-gmail-tool drive download "1abc123xyz" "./document.pdf"
+```
+
+**Note:** Google Workspace files (Docs, Sheets, Slides) cannot be downloaded directly. They require export functionality.
+
+#### Search Files
+
+```bash
+# Search by name
+google-gmail-tool drive search --name "report"
+
+# Search for PDFs
+google-gmail-tool drive search --mime-type "application/pdf" -n 100
+
+# Search files shared with me
+google-gmail-tool drive search --shared-with-me
+
+# Combine filters
+google-gmail-tool drive search \
+    --name "invoice" \
+    --mime-type "application/pdf" \
+    --folder "1abc123xyz"
+
+# Human-readable output
+google-gmail-tool drive search --name "budget" --text
+```
+
+**Common MIME Types:**
+- `application/pdf` - PDF documents
+- `image/jpeg`, `image/png` - Images
+- `text/plain` - Text files
+- `application/zip` - ZIP archives
+- `video/mp4` - Videos
+- `application/vnd.google-apps.document` - Google Docs
+- `application/vnd.google-apps.spreadsheet` - Google Sheets
+- `application/vnd.google-apps.folder` - Folders
 
 ## Development
 

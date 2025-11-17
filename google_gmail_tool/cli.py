@@ -11,6 +11,7 @@ from google_gmail_tool.commands import (
     calendar_commands,
     calendar_create_update_delete,
     completion_commands,
+    drive_commands,
     mail_commands,
     task_commands,
     task_create_update_delete,
@@ -27,7 +28,7 @@ def main() -> None:
     - Gmail operations - list, send, get, export to Obsidian (mail)
     - Calendar operations - list, create, update, delete, export to Obsidian (calendar)
     - Task operations - list, create, update, complete, delete, export to Obsidian (task)
-    - Drive operations - Coming soon (drive)
+    - Drive operations - list, search, download files (drive)
 
     \b
     Quick Start:
@@ -114,6 +115,22 @@ task.add_command(task_create_update_delete.complete, name="complete")
 task.add_command(task_create_update_delete.uncomplete, name="uncomplete")
 task.add_command(task_create_update_delete.delete, name="delete")
 task.add_command(task_commands.export_obsidian, name="export-obsidian")
+
+
+@main.group()
+def drive() -> None:
+    """Drive operations (read-only).
+
+    Commands for listing, searching, and downloading files from Google Drive.
+    """
+    pass
+
+
+# Register drive commands
+drive.add_command(drive_commands.list_cmd, name="list")
+drive.add_command(drive_commands.get, name="get")
+drive.add_command(drive_commands.download, name="download")
+drive.add_command(drive_commands.search, name="search")
 
 
 # Register completion command (top-level command)

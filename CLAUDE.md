@@ -2,7 +2,7 @@
 
 ## Goal
 
-A professional CLI that provides access to Google services: Gmail, Calendar (Events), Tasks, and Drive (future).
+A professional CLI that provides access to Google services: Gmail, Calendar (Events), Tasks, and Drive.
 
 ## What is google-gmail-tool?
 
@@ -10,7 +10,7 @@ A professional CLI that provides access to Google services: Gmail, Calendar (Eve
 
 ## Key Features
 
-- **Multi-Service Support**: Gmail, Google Calendar (events), Google Tasks, Drive (future)
+- **Multi-Service Support**: Gmail, Google Calendar (events), Google Tasks, Google Drive
 - **Agent-Friendly Design**: JSON output to stdout, logs to stderr, self-documenting help
 - **Smart Integrations**: Export to Obsidian with smart merge (preserves checked items)
 - **Type-Safe**: Strict mypy checking throughout
@@ -84,9 +84,11 @@ google-gmail-tool <command-group> <command> [OPTIONS]
    - `delete` - Delete tasks
    - `export-obsidian` - Export tasks to Obsidian daily notes
 
-6. **drive** - Google Drive operations (future)
-   - `list` - List files
-   - `get` - Download files
+6. **drive** - Google Drive operations (read-only)
+   - `list` - List files with filtering and sorting
+   - `get` - Get file metadata
+   - `download` - Download files
+   - `search` - Search for files with common filters
 
 ### Global Options
 
@@ -108,6 +110,7 @@ google-gmail-tool/
 │   │   ├── gmail_client.py           # Gmail API client (threads, messages, send)
 │   │   ├── calendar_client.py        # Calendar API client (events CRUD)
 │   │   ├── task_client.py            # Tasks API client (tasks CRUD)
+│   │   ├── drive_client.py           # Drive API client (list, search, download)
 │   │   ├── obsidian_mail_exporter.py # Mail to Obsidian export with smart merge
 │   │   ├── obsidian_calendar_exporter.py  # Calendar to Obsidian export
 │   │   └── obsidian_task_exporter.py # Tasks to Obsidian export with smart merge
@@ -119,7 +122,8 @@ google-gmail-tool/
 │       ├── calendar_commands.py      # calendar list, get, export-obsidian
 │       ├── calendar_create_update_delete.py  # calendar create, update, delete
 │       ├── task_commands.py          # task list, get, export-obsidian
-│       └── task_create_update_delete.py  # task create, update, delete, complete, uncomplete
+│       ├── task_create_update_delete.py  # task create, update, delete, complete, uncomplete
+│       └── drive_commands.py         # drive list, get, download, search
 ├── tests/
 │   ├── __init__.py
 │   └── test_utils.py
