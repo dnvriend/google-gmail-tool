@@ -32,10 +32,11 @@
 
 `google-gmail-tool` provides programmatic access to Google services through an agent-friendly CLI. Built with modern Python tooling (uv, mise, click) and designed for both human operators and AI agents.
 
-**Official Documentation:**
-- [Gmail API](https://developers.google.com/gmail/api)
-- [Google Calendar API](https://developers.google.com/calendar)
-- [Google Drive API](https://developers.google.com/drive)
+**Supported Services:**
+- [Gmail API](https://developers.google.com/gmail/api) - Read, send, export emails
+- [Google Calendar API](https://developers.google.com/calendar) - Full CRUD operations for events
+- [Google Tasks API](https://developers.google.com/tasks) - Complete task management
+- [Google Drive API](https://developers.google.com/drive) - Full file and folder management (upload, download, create, rename, move, delete)
 
 ### Why a CLI-First Tool?
 
@@ -58,8 +59,11 @@ This tool emphasizes:
 ## Features
 
 - ✅ **OAuth2 Authentication**: Secure credential management via environment variables
-- ✅ **API Access Verification**: Test Gmail, Calendar, and Drive permissions with visual feedback (✓/✗)
+- ✅ **API Access Verification**: Test Gmail, Calendar, Tasks, and Drive permissions with visual feedback (✓/✗)
 - ✅ **Agent-Friendly CLI**: Self-documenting help with inline examples for discovery and self-correction
+- ✅ **Drive Operations**: Full CRUD support - upload, download, create, rename, move, delete files and folders
+- ✅ **Parallel Uploads**: Multi-threaded folder uploads with progress bars (tqdm)
+- ✅ **Safety First**: Duplicate detection, trash by default, confirmation prompts with force flags
 - ✅ **Type-Safe**: Strict mypy checking for reliability
 - ✅ **Production Ready**: Comprehensive error handling with actionable messages
 - ✅ **Modern Tooling**: Built with uv, mise, and click
@@ -174,10 +178,10 @@ google-gmail-tool completion --help
    https://www.googleapis.com/auth/gmail.readonly
    https://www.googleapis.com/auth/calendar
    https://www.googleapis.com/auth/tasks
-   https://www.googleapis.com/auth/drive.readonly
+   https://www.googleapis.com/auth/drive
    ```
 
-   **Note**: Calendar requires full access (not readonly) for create/update/delete operations. Tasks requires full access for all task operations.
+   **Note**: Calendar and Tasks require full access (not readonly) for create/update/delete operations. Drive requires full access for upload/move/delete operations.
 
 ### Environment Variables
 
@@ -266,7 +270,7 @@ google-gmail-tool auth check --verbose
 | Issue | Solution |
 |-------|----------|
 | Credentials not found | Set `GOOGLE_GMAIL_TOOL_CREDENTIALS` or `GOOGLE_GMAIL_TOOL_CREDENTIALS_JSON` |
-| API access denied | Ensure OAuth scopes include: `gmail.readonly`, `calendar` (full), `tasks` (full), `drive.readonly` |
+| API access denied | Ensure OAuth scopes include: `gmail.readonly`, `calendar` (full), `tasks` (full), `drive` (full) |
 | Token expired | Credentials will auto-refresh using `refresh_token` |
 | Invalid format | Check credential JSON matches required format |
 | Insufficient permissions (403) | Regenerate OAuth token with all required scopes listed above |
@@ -633,6 +637,133 @@ google-gmail-tool drive search --name "budget" --text
 - `application/vnd.google-apps.document` - Google Docs
 - `application/vnd.google-apps.spreadsheet` - Google Sheets
 - `application/vnd.google-apps.folder` - Folders
+
+#### File Operations
+
+**Upload File**
+
+```bash
+# Upload file to My Drive root
+google-gmail-tool drive upload-file "/path/to/document.pdf"
+
+# Upload to specific folder
+google-gmail-tool drive upload-file "/path/to/report.pdf" \
+    --folder-id "1abc123xyz"
+
+# Upload with custom name and description
+google-gmail-tool drive upload-file "/tmp/file.pdf" \
+    --name "Monthly Report.pdf" \
+    --description "Q4 2025 financial report"
+
+# Overwrite existing file
+google-gmail-tool drive upload-file "/path/to/updated.pdf" \
+    --force --auto-approve
+```
+
+**Rename File**
+
+```bash
+# Rename a file
+google-gmail-tool drive rename-file "1abc123xyz" "new-name.pdf"
+
+# With text output
+google-gmail-tool drive rename-file "1abc123xyz" "renamed-document.pdf" --text
+```
+
+**Move File**
+
+```bash
+# Move file to different folder
+google-gmail-tool drive move-file "1abc123xyz" "1destination456"
+
+# With verbose logging
+google-gmail-tool drive move-file "1fileId" "1folderId" -v
+```
+
+**Delete File**
+
+```bash
+# Move file to trash (default, recoverable)
+google-gmail-tool drive delete-file "1abc123xyz"
+
+# Permanently delete (not recoverable)
+google-gmail-tool drive delete-file "1abc123xyz" --permanent
+
+# Skip confirmation prompt
+google-gmail-tool drive delete-file "1abc123xyz" --force
+```
+
+#### Folder Operations
+
+**Create Folder**
+
+```bash
+# Create folder in My Drive root
+google-gmail-tool drive create-folder "Project Documents"
+
+# Create folder in specific location
+google-gmail-tool drive create-folder "Subfolder" "1parent123"
+
+# With description
+google-gmail-tool drive create-folder "Archive" \
+    --description "Archived project files"
+```
+
+**Upload Folder**
+
+```bash
+# Upload folder with all contents (recursive by default)
+google-gmail-tool drive upload-folder "/path/to/local/folder"
+
+# Upload to specific parent folder
+google-gmail-tool drive upload-folder "/path/to/folder" "1parent123"
+
+# Upload folder structure only (no files)
+google-gmail-tool drive upload-folder "/path/to/folder" --no-recursive
+
+# Auto-approve without confirmation
+google-gmail-tool drive upload-folder "/path/to/folder" --auto-approve
+```
+
+**Rename Folder**
+
+```bash
+# Rename a folder
+google-gmail-tool drive rename-folder "1folder123" "New Folder Name"
+
+# With text output
+google-gmail-tool drive rename-folder "1abc123" "Renamed Project" --text
+```
+
+**Move Folder**
+
+```bash
+# Move folder to different parent
+google-gmail-tool drive move-folder "1folder123" "1newParent456"
+
+# With verbose logging
+google-gmail-tool drive move-folder "1folderId" "1parentId" -v
+```
+
+**Delete Folder**
+
+```bash
+# Move folder to trash (default, recoverable)
+google-gmail-tool drive delete-folder "1folder123"
+
+# Permanently delete folder and all contents (not recoverable)
+google-gmail-tool drive delete-folder "1folder123" --permanent
+
+# Skip confirmation prompt
+google-gmail-tool drive delete-folder "1folder123" --force
+```
+
+**Safety Features:**
+- Duplicate detection before upload with confirmation prompts
+- Default trash mode for deletions (recoverable)
+- `--force` flag to skip confirmation prompts
+- `--auto-approve` flag for automation workflows
+- Progress bars for folder uploads with multiple files
 
 ## Development
 

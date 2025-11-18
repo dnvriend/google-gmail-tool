@@ -10,9 +10,11 @@ A professional CLI that provides access to Google services: Gmail, Calendar (Eve
 
 ## Key Features
 
-- **Multi-Service Support**: Gmail, Google Calendar (events), Google Tasks, Google Drive
-- **Agent-Friendly Design**: JSON output to stdout, logs to stderr, self-documenting help
+- **Multi-Service Support**: Gmail, Google Calendar (events), Google Tasks, Google Drive (full CRUD)
+- **Agent-Friendly Design**: JSON output to stdout, logs to stderr, self-documenting help with inline examples
 - **Smart Integrations**: Export to Obsidian with smart merge (preserves checked items)
+- **Drive Operations**: Upload/download files, create/manage folders, parallel uploads with progress bars
+- **Safety First**: Duplicate detection, trash by default, confirmation prompts, force flags for automation
 - **Type-Safe**: Strict mypy checking throughout
 - **Production Ready**: Comprehensive error handling and validation
 
@@ -34,6 +36,7 @@ A professional CLI that provides access to Google services: Gmail, Calendar (Eve
 - `html2text>=2024.2.26` - HTML to markdown conversion
 - `python-slugify>=8.0.0` - Slug generation for filenames
 - `python-dateutil>=2.8.2` - Date parsing utilities
+- `tqdm>=4.66.0` - Progress bars for file uploads
 
 ### Development Dependencies
 
@@ -42,6 +45,7 @@ A professional CLI that provides access to Google services: Gmail, Calendar (Eve
 - `pytest>=7.4.0` - Testing framework
 - `types-requests>=2.31.0` - Type stubs
 - `types-python-dateutil>=2.8.19` - Type stubs
+- `types-tqdm>=4.66.0` - Type stubs for tqdm
 
 ## CLI Command Structure
 
@@ -84,11 +88,20 @@ google-gmail-tool <command-group> <command> [OPTIONS]
    - `delete` - Delete tasks
    - `export-obsidian` - Export tasks to Obsidian daily notes
 
-6. **drive** - Google Drive operations (read-only)
+6. **drive** - Google Drive operations
    - `list` - List files with filtering and sorting
    - `get` - Get file metadata
    - `download` - Download files
    - `search` - Search for files with common filters
+   - `upload-file` - Upload a file to Drive
+   - `rename-file` - Rename a file
+   - `move-file` - Move file to different folder
+   - `delete-file` - Delete or trash a file
+   - `create-folder` - Create a new folder
+   - `upload-folder` - Upload folder with recursive support
+   - `rename-folder` - Rename a folder
+   - `move-folder` - Move folder to different parent
+   - `delete-folder` - Delete or trash a folder
 
 ### Global Options
 
@@ -110,7 +123,7 @@ google-gmail-tool/
 │   │   ├── gmail_client.py           # Gmail API client (threads, messages, send)
 │   │   ├── calendar_client.py        # Calendar API client (events CRUD)
 │   │   ├── task_client.py            # Tasks API client (tasks CRUD)
-│   │   ├── drive_client.py           # Drive API client (list, search, download)
+│   │   ├── drive_client.py           # Drive API client (CRUD operations, upload, download)
 │   │   ├── obsidian_mail_exporter.py # Mail to Obsidian export with smart merge
 │   │   ├── obsidian_calendar_exporter.py  # Calendar to Obsidian export
 │   │   └── obsidian_task_exporter.py # Tasks to Obsidian export with smart merge
@@ -123,7 +136,9 @@ google-gmail-tool/
 │       ├── calendar_create_update_delete.py  # calendar create, update, delete
 │       ├── task_commands.py          # task list, get, export-obsidian
 │       ├── task_create_update_delete.py  # task create, update, delete, complete, uncomplete
-│       └── drive_commands.py         # drive list, get, download, search
+│       ├── drive_commands.py         # drive list, get, download, search
+│       ├── drive_file_operations.py  # drive upload-file, rename-file, move-file, delete-file
+│       └── drive_folder_operations.py  # drive create-folder, upload-folder, rename-folder, move-folder, delete-folder
 ├── tests/
 │   ├── __init__.py
 │   └── test_utils.py

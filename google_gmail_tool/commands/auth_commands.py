@@ -22,7 +22,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.send",  # Send Gmail
     "https://www.googleapis.com/auth/calendar",  # Full Calendar (read, create, update, delete)
     "https://www.googleapis.com/auth/tasks",  # Full Tasks (read, create, update, delete)
-    "https://www.googleapis.com/auth/drive.readonly",  # Read Drive
+    "https://www.googleapis.com/auth/drive",  # Full Drive (read, write, delete)
 ]
 
 
@@ -100,7 +100,7 @@ def check(verbose: int) -> None:
         - https://www.googleapis.com/auth/gmail.readonly
         - https://www.googleapis.com/auth/calendar (full access for create/update/delete)
         - https://www.googleapis.com/auth/tasks (full access for all operations)
-        - https://www.googleapis.com/auth/drive.readonly
+        - https://www.googleapis.com/auth/drive (full access for read/write/delete)
 
         Generate new credentials at:
         https://console.cloud.google.com/apis/credentials
@@ -177,7 +177,7 @@ def check(verbose: int) -> None:
         click.echo("  - https://www.googleapis.com/auth/gmail.readonly", err=True)
         click.echo("  - https://www.googleapis.com/auth/calendar", err=True)
         click.echo("  - https://www.googleapis.com/auth/tasks", err=True)
-        click.echo("  - https://www.googleapis.com/auth/drive.readonly", err=True)
+        click.echo("  - https://www.googleapis.com/auth/drive", err=True)
         sys.exit(1)
 
 
@@ -258,7 +258,7 @@ def login(
         - https://www.googleapis.com/auth/gmail.send
         - https://www.googleapis.com/auth/calendar (full access)
         - https://www.googleapis.com/auth/tasks (full access)
-        - https://www.googleapis.com/auth/drive.readonly
+        - https://www.googleapis.com/auth/drive (full access)
 
     \b
     Exit Codes:

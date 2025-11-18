@@ -168,10 +168,12 @@ This is why the `refresh_token` is so important - it allows the tool to work ind
 
 ### Q: What OAuth scopes does the tool request?
 
-**A**: The tool requests these read-only scopes:
-- `https://www.googleapis.com/auth/gmail.readonly`
-- `https://www.googleapis.com/auth/calendar.readonly`
-- `https://www.googleapis.com/auth/drive.readonly`
+**A**: The tool requests these scopes:
+- `https://www.googleapis.com/auth/gmail.readonly` (read-only)
+- `https://www.googleapis.com/auth/gmail.send` (send emails)
+- `https://www.googleapis.com/auth/calendar` (full access)
+- `https://www.googleapis.com/auth/tasks` (full access)
+- `https://www.googleapis.com/auth/drive` (full access)
 
 ### Q: How do I revoke access?
 
