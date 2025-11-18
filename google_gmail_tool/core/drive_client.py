@@ -403,7 +403,7 @@ class DriveClient:
             # Verify it's a folder
             file_metadata = self.get_file(folder_id)
             if file_metadata.get("mimeType") != "application/vnd.google-apps.folder":
-                item_name = file_metadata.get('name')
+                item_name = file_metadata.get("name")
                 error_msg = (
                     f"Item {folder_id} is not a folder "
                     f"(mimeType: {file_metadata.get('mimeType')}). "
@@ -535,7 +535,7 @@ class DriveClient:
             # Verify it's a folder
             file_metadata = self.get_file(folder_id)
             if file_metadata.get("mimeType") != "application/vnd.google-apps.folder":
-                item_name = file_metadata.get('name')
+                item_name = file_metadata.get("name")
                 error_msg = (
                     f"Item {folder_id} is not a folder "
                     f"(mimeType: {file_metadata.get('mimeType')}). "

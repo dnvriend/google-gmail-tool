@@ -256,10 +256,83 @@ google-gmail-tool auth check --verbose
 
 ✓ GMAIL: Gmail API access granted
 ✓ CALENDAR: Calendar API access granted
+✓ TASKS: Tasks API access granted
 ✓ DRIVE: Drive API access granted
 
 ✅ All API checks passed! You're ready to use google-gmail-tool.
 ```
+
+### Skill Commands (CLI-as-Skill Pattern)
+
+The skill commands implement the **CLI-as-Skill** pattern, enabling AI agents to discover tool capabilities through semantic search across all indexed CLI tools. This enables cross-tool discovery and learning from execution traces.
+
+#### Index Tool Help
+
+Index this tool's help documentation into the shared agentic toolchain knowledge base:
+
+```bash
+# Index google-gmail-tool help into agentic-toolchain-kb
+google-gmail-tool skill index
+
+# With verbose output
+google-gmail-tool skill index -v
+```
+
+This indexes:
+- All command help documentation
+- Inline examples and use cases
+- Output format specifications
+- Command relationships
+
+**When to index:**
+- After tool installation
+- After tool updates
+- When new commands are added
+
+#### Query Knowledge Base
+
+Query across all indexed CLI tools using natural language:
+
+```bash
+# Find authentication commands
+google-gmail-tool skill query "authenticate with OAuth"
+
+# Discover file operations
+google-gmail-tool skill query "upload files to cloud storage"
+
+# Find deployment workflows
+google-gmail-tool skill query "deploy to production"
+
+# Text output for humans
+google-gmail-tool skill query "send email" --text
+```
+
+**Output Format:**
+Returns JSON with:
+- `response_text`: Relevant commands and documentation from all tools
+- `grounding_metadata`: File/line references for verification
+
+**Prerequisites:**
+- Install `gemini-file-search-tool`: `pip install gemini-file-search-tool`
+- Set `GEMINI_API_KEY` environment variable
+- Index at least one CLI tool
+
+**Benefits:**
+- **Cross-tool discovery**: Find commands across all installed CLI tools
+- **Semantic search**: Natural language queries instead of keyword matching
+- **Agent-friendly**: AI agents can discover capabilities autonomously
+- **Learning from traces**: Future enhancement will include execution traces
+
+**Architecture:**
+```
+google-gmail-tool (this CLI)
+    ↓ (delegates RAG ops)
+gemini-file-search-tool (specialized RAG handler)
+    ↓ (manages)
+agentic-toolchain-kb (shared knowledge base)
+```
+
+See [CLI-as-Skill Hybrid System](https://github.com/anthropics/claude-code) for more details on this pattern.
 
 **Exit Codes:**
 - `0` - All checks passed

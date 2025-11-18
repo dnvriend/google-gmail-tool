@@ -15,6 +15,7 @@ from google_gmail_tool.commands import (
     drive_file_operations,
     drive_folder_operations,
     mail_commands,
+    skill_commands,
     task_commands,
     task_create_update_delete,
 )
@@ -25,20 +26,20 @@ from google_gmail_tool.commands import (
 def main() -> None:
     """A CLI that provides access to Google services like Gmail, Calendar, Tasks, and Drive.
 
+    \b
     This tool provides access to your Google data with commands for:
-    - Authentication verification and OAuth flow (auth)
-    - Gmail operations - list, send, get, export to Obsidian (mail)
-    - Calendar operations - list, create, update, delete, export to Obsidian (calendar)
-    - Task operations - list, create, update, complete, delete, export to Obsidian (task)
-    - Drive operations - list, search, upload, download, create, rename, move, delete (drive)
+        - Authentication verification and OAuth flow (auth)
+        - Gmail operations - list, send, get, export to Obsidian (mail)
+        - Calendar operations - list, create, update, delete, export to Obsidian (calendar)
+        - Task operations - list, create, update, complete, delete, export to Obsidian (task)
+        - Drive operations - list, search, upload, download, create, rename, move, delete (drive)
+        - Skill commands - cross-tool discovery and semantic search (skill)
 
     \b
     Quick Start:
-    \b
         # 1. Set up OAuth credentials
         export GOOGLE_GMAIL_TOOL_CREDENTIALS=~/.config/google-gmail-tool/credentials.json
 
-    \b
         # 2. Verify authentication
         google-gmail-tool auth check
 
@@ -123,10 +124,11 @@ task.add_command(task_commands.export_obsidian, name="export-obsidian")
 def drive() -> None:
     """Drive operations.
 
+    \b
     Commands for managing files and folders in Google Drive:
-    - Read operations: list, search, get, download
-    - File operations: upload-file, rename-file, move-file, delete-file
-    - Folder operations: create-folder, upload-folder, rename-folder, move-folder, delete-folder
+        - Read operations: list, search, get, download
+        - File operations: upload-file, rename-file, move-file, delete-file
+        - Folder operations: create-folder, upload-folder, rename-folder, move-folder, delete-folder
     """
     pass
 
@@ -153,6 +155,9 @@ drive.add_command(drive_folder_operations.delete_folder, name="delete-folder")
 
 # Register completion command (top-level command)
 main.add_command(completion_commands.completion)
+
+# Register skill command group (top-level command group)
+main.add_command(skill_commands.skill)
 
 
 if __name__ == "__main__":
