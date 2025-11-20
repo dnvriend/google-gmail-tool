@@ -22,7 +22,7 @@ and has been reviewed and tested by a human.
 
 import json
 import os
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tempfile
 from io import StringIO
@@ -188,7 +188,7 @@ def skill_query(query_text: str, verbose: int, output_format: str, use_text: boo
             f"Calling gemini-file-search-tool query '{query_text}' --store {AGENTIC_TOOLCHAIN_KB}"
         )
 
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B603 B607
             [
                 "gemini-file-search-tool",
                 "query",
@@ -340,7 +340,7 @@ def skill_index(verbose: int) -> None:
                 f"Calling gemini-file-search-tool upload {temp_path} --store {AGENTIC_TOOLCHAIN_KB}"
             )
 
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603 B607
                 [
                     "gemini-file-search-tool",
                     "upload",

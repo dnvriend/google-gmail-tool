@@ -1,0 +1,15 @@
+{
+    "name": "google-gmail-tool",
+    "owner": {
+        "name": "Dennis Vriend",
+        "email": "dvriend@ilionx.com",
+        "url": "https://github.com/dnvriend/google-gmail-tool"
+    },
+    "plugins": [
+        {
+            "name": "google-gmail-tool",
+            "source": "./plugins/google-gmail-tool",
+            "description": "Access Google services: Gmail, Calendar, Tasks, Drive"
+        }
+    ]
+}
